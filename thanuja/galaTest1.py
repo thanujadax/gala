@@ -1,13 +1,41 @@
 # imports
 from gala import imio, classify, features, agglo, evaluate as ev
 import numpy as np
-import scipy.misc.imsave
+#import scipy.misc.imsave
+import os
+from PIL import Image
+
+'''
+Inputs
+'''
+'''
+h5File_train_gt = '/home/thanuja/projects/external/gala/tests/example-data/train-gt.lzf.h5'
+h5File_train_ws = '/home/thanuja/projects/external/gala/tests/example-data/train-ws.lzf.h5'
+h5File_train_probMap = '/home/thanuja/projects/external/gala/tests/example-data/train-p1.lzf.h5'
+
+h5File_test_ws = '/home/thanuja/projects/external/gala/tests/example-data/test-ws.lzf.h5'
+h5File_test_probMap = '/home/thanuja/projects/external/gala/tests/example-data/test-p1.lzf.h5'
+'''
+
+
+h5File_train_gt = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/train/train_gt.h5'
+h5File_train_ws = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/train/train_ws.h5'
+h5File_train_probMap = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/train/train_probMaps.h5'
+
+h5File_test_ws = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/validate/test_ws.h5'
+h5File_test_probMap = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/validate/test_probMaps.h5'
+
+
+'''
+Outputs
+'''
+outputRoot = '/home/thanuja/projects/RESULTS/contours/20160621_gala_sstem'
 
 # read in training data
 # groundtruth volume, probability maps, superpixe/watershed map
 gt_train, pr_train, ws_train = (map(imio.read_h5_stack,
-                                ['train-gt.lzf.h5', 'train-p1.lzf.h5',
-                                 'train-ws.lzf.h5']))
+                                [h5File_train_gt, h5File_train_probMap,
+                                 h5File_train_ws]))
 
 # create a feature manager
 fm = features.moments.Manager()
@@ -28,7 +56,7 @@ learned_policy = agglo.classifier_probability(fc, rf)
 
 # get the test data and make a RAG with the trained policy
 pr_test, ws_test = (map(imio.read_h5_stack,
-                        ['test-p1.lzf.h5', 'test-ws.lzf.h5']))
+                        [h5File_test_probMap, h5File_test_ws]))
 g_test = agglo.Rag(ws_test, pr_test, learned_policy, feature_manager=fc)
 g_test.agglomerate(0.5) # best expected segmentation obtained with a threshold of 0.5
 seg_test1 = g_test.get_segmentation()
@@ -36,7 +64,13 @@ seg_test1 = g_test.get_segmentation()
 # convert hdf into png and save 
 np_data = np.array(seg_test1)
 sizeZ,sizeY,sizeX = np_data.shape
-
+for i in range(0,sizeZ):
+    im1 = np_data[i,:,:]
+    im = Image.fromarray(im1.astype('uint8'))
+    imFileName = str(i).zfill(3) + ".png"
+    imFileName = os.path.join(outputRoot,imFileName)
+    #scipy.misc.toimage(im, cmin=0.0, cmax=...).save(imFileName)
+    im.save(imFileName)
 
 
 '''
