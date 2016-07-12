@@ -22,14 +22,14 @@ h5File_train_gt = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_h
 h5File_train_ws = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/train/train_ws.h5'
 h5File_train_probMap = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/train/train_probMaps.h5'
 
-h5File_test_ws = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/validate/test_ws.h5'
-h5File_test_probMap = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/validate/test_probMaps.h5'
+h5File_test_ws = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/test/test_ws.h5'
+h5File_test_probMap = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/test/test_probMaps.h5'
 
 
 '''
 Outputs
 '''
-outputRoot = '/home/thanuja/projects/RESULTS/contours/20160628_gala_sstem'
+outputRoot = '/home/thanuja/projects/RESULTS/contours/20160708_gala_sstem'
 
 # read in training data
 # groundtruth volume, probability maps, superpixe/watershed map
