@@ -29,7 +29,7 @@ h5File_test_probMap = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset
 '''
 Outputs
 '''
-outputRoot = '/home/thanuja/projects/RESULTS/contours/20160708_gala_sstem'
+outputRoot = '/home/thanuja/projects/RESULTS/contours/20160720_gala'
 
 # read in training data
 # groundtruth volume, probability maps, superpixe/watershed map
