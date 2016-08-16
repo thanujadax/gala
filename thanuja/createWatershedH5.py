@@ -3,21 +3,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.misc
 from scipy import ndimage as ndi
-
 from skimage.morphology import watershed
-# from vigra.analysis import watersheds
 from skimage.feature import peak_local_max
 import h5py
 from PIL import Image
 
-outputH5FileName = '/home/thanuja/projects/data/toyData/set8/watershed_h5/train_ws.h5'
+outputH5FileName = '/home/thanuja/projects/data/toyData/set8/watershed_h5/test_ws.h5'
 inputDir = '/home/thanuja/projects/data/toyData/set8/membranes_rfc'
 
 # get all tif files in the input dir
 # 8 for test, 1 for train
-maxNumIm = 1
-binaryThreshold = 5
+maxNumIm = 8
+binaryThreshold = 0.95
 minDistBetwnPeaks = 1
+minPeakVal = 0.3 # minimum threshold for peak
 i = 0
 for file in sorted(os.listdir(inputDir)):
     if i>maxNumIm :
@@ -25,12 +24,17 @@ for file in sorted(os.listdir(inputDir)):
     # for all the files, perform watershed
     # image = np.array(Image.open(inputFileName).convert('L'), 'f')
     image = np.array(Image.open(os.path.join(inputDir,file)).convert('L'), 'f')
+    # normalize to [0,1]
+    image = image/(np.max(image))
+    # invert image s.t. membrane = 0, cell-interiror = 1
+    image = (image-1) * (-1)
+    # produce binary image
     binImage = 1*(image>binaryThreshold)
     # Generate the markers as local maxima of the distance to the background
     distance = ndi.distance_transform_edt(binImage)
-    local_maxi = peak_local_max(distance, indices=False, min_distance=minDistBetwnPeaks)
+    local_maxi = peak_local_max(distance, indices=False, min_distance=minDistBetwnPeaks,threshold_abs=minPeakVal)
     markers = ndi.label(local_maxi)[0]    
-    labels = watershed(image, markers, mask=image)    
+    labels = watershed(image, markers, mask=binImage)    
 
     labels1 = np.empty([1,500,500])
     labels1[0,:,:] = labels
