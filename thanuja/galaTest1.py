@@ -17,22 +17,20 @@ h5File_test_ws = '/home/thanuja/projects/external/gala/tests/example-data/test-w
 h5File_test_probMap = '/home/thanuja/projects/external/gala/tests/example-data/test-p1.lzf.h5'
 '''
 
+h5File_train_gt = '/home/thanuja/DATA/ISBI2012/gala/hdf5/gt-train.h5'
+h5File_train_ws = '/home/thanuja/DATA/ISBI2012/gala/hdf5/ws-train-rfc.h5'
+h5File_train_probMap = '/home/thanuja/DATA/ISBI2012/gala/hdf5/probMaps_rfc-train.h5'
 
-h5File_train_gt = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/train/train_gt.h5'
-h5File_train_ws = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/train/train_ws.h5'
-h5File_train_probMap = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/train/train_probMaps.h5'
-
-h5File_test_ws = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/test/test_ws.h5'
-h5File_test_probMap = '/home/thanuja/projects/data/drosophilaLarva_ssTEM/dataset01_hdf5/test/test_probMaps.h5'
-
+h5File_test_ws = '/home/thanuja/DATA/ISBI2012/gala/hdf5/ws-test-rfc.h5'
+h5File_test_probMap = '/home/thanuja/DATA/ISBI2012/gala/hdf5/probMaps_rfc-test.h5'
 
 '''
 Outputs
 '''
-outputRoot = '/home/thanuja/projects/RESULTS/gala/20160816'
+outputRoot = '/home/thanuja/RESULTS/isbi2012/GALA/rfc_20161109'
 
 # read in training data
-# groundtruth volume, probability maps, superpixe/watershed map
+# groundtruth volume, probability maps, superpixel/watershed map
 gt_train, pr_train, ws_train = (map(imio.read_h5_stack,
                                 [h5File_train_gt, h5File_train_probMap,
                                  h5File_train_ws]))
